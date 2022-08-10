@@ -6,11 +6,11 @@
         <div>
             <label class="ms-1" for="important">Important</label>
             <input class="ms-1" type="radio" id="green" value="green" v-model="color" checked>
-            <label class="green ms-1" for="green">Green</label>
+            <label class="green ms-1 p-1 rounded" for="green">Green</label>
             <input type="radio" id="yellow" value="yellow" v-model="color">
-            <label class="yellow ms-1" for="yellow">Yellow</label>
+            <label class="yellow ms-1 p-1 rounded" for="yellow">Yellow</label>
             <input type="radio" id="red" value="red" v-model="color">
-            <label class="red ms-1" for="red">Red</label>
+            <label class="red ms-1 p-1 rounded" for="red">Red</label>
         </div>
         <div>
             <label for="deadline">Deadline</label>
@@ -28,11 +28,16 @@
             <h3 class="me-3">
             {{idx+1 }}
             </h3> 
-            {{ myNote.message }} 
-            <div class="ms-auto ">
+            <input v-if="editChecked[idx]" class="ms-1 me-1 form-control" id="editInput" name="editInput" v-model=editMessage @keypress.enter="updateItem">
+            <div v-else>
+                {{ myNote.message }} 
+            </div>
+            <input v-if="editChecked[idx]" class="ms-1" type="datetime-local" v-model="editDeadline">
+            <div v-else class="ms-auto ">
                 {{ myNote.deadline }}
             </div>
-        <button type="button" class="btn btn-danger ms-auto" @click="removeItem(idx)">Delete</button>
+        <button type="button" class="btn btn-dark ms-2" @click="editItem(idx)">Edit</button>
+        <button type="button" class="btn btn-danger ms-1" @click="removeItem(idx)">Delete</button>
     </li>
 </div>
 </template>
@@ -43,10 +48,14 @@ export default {
     data() {
         return {
             deadline : new Date().toISOString().slice(0,16),
+            editDeadline : new Date().toISOString().slice(0,16),
             message: "",
+            editMessage: "",
             notes: [],
             color: "green",
             checked: false,
+            editChecked: [],
+            idNote: null
         };
     },
     methods: {
@@ -61,12 +70,30 @@ export default {
 
             this.message = ""
         },
+        updateItem(){
+            if(this.editMessage){
+                    this.notes[this.idNote].message = this.editMessage;
+                    this.notes[this.idNote].deadline = this.editDeadline;
+                    this.editChecked[this.idNote] = false
+                    this.idNote = null
+            }
+        },
         removeItem(idx){
             this.notes.splice(idx,1)
+        },
+        editItem(idx){
+            this.editMessage = this.notes[idx].message
+            this.editDeadline = this.notes[idx].deadline
+            this.editChecked[idx] = true
+            this.idNote = idx
         },
         cancelItem(){
             this.message = ""
             this.deadline = "0001-01-01T00:00"
+            for (let i = 0; i < this.editChecked.length; i++) {
+            this.editChecked[this.idNote] = false
+            this.idNote = null
+            }
         },
     },
     computed:{
@@ -75,7 +102,7 @@ export default {
         },
         noteObjDeadline(){
             return {message: this.message, deadline: this.deadline, color: this.color}
-        }
+        },
     }
 }
 </script>
