@@ -1,0 +1,21 @@
+body{
+    background-color: rgb(60, 51, 51) !important;
+}
+label {
+    color: #fff !important;
+}
+input{
+    background-color: rgb(100, 88, 88) !important;
+}
+.green{
+    background-color: rgb(17, 99, 17);
+    margin: 0 5px;
+}
+.yellow{
+    background-color: rgb(124, 124, 21);
+    margin: 0 5px;
+}
+.red{
+    background-color: rgb(121, 23, 23);
+    margin: 0 5px;
+}
