@@ -64,6 +64,15 @@ export default {
             idNote: null
         };
     },
+      mounted() {
+        if (localStorage.getItem('notes')) {
+            try {
+                this.notes = JSON.parse(localStorage.getItem('notes'));
+            } catch(e) {
+                localStorage.removeItem('notes');
+            }
+        }
+    },
     methods: {
         addItem() {
             if(this.message){
@@ -72,6 +81,7 @@ export default {
                 }else{
                     this.notes.push(this.noteObjDeadline);
                 }   
+                this.saveNotes();
             }
 
             this.message = ""
@@ -82,10 +92,16 @@ export default {
                     this.notes[this.idNote].deadline = this.editDeadline;
                     this.editChecked[this.idNote] = false
                     this.idNote = null
+                    this.saveNotes();
             }
         },
         removeItem(idx){
             this.notes.splice(idx,1)
+            this.saveNotes();
+        },
+        saveNotes() {
+            const parsed = JSON.stringify(this.notes);
+            localStorage.setItem('notes', parsed);
         },
         editItem(idx){
             this.editMessage = this.notes[idx].message
@@ -140,6 +156,7 @@ export default {
   display: flex;
 }
 .switch {
+  margin-left: 10px;
   position: relative;
   display: inline-block;
   width: 30px;
