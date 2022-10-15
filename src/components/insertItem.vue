@@ -1,9 +1,17 @@
 <template>
-<div class="theme">Dark Theme
-    <label class="switch">
-        <input @click="darkThemeSwitch" type="checkbox">
-        <span class="slider round"></span>
-    </label>
+<div class="top_panel">
+    <div class="theme">Dark Theme
+        <label class="switch">
+            <input @click="darkThemeSwitch" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div class="theme">
+        Berlin temperature: 
+        <div class="text-warning">
+            {{ weatherData }} °C
+        </div> 
+    </div>
 </div>
 <div>
     <label class="h3" for="descritpion">Descritpion</label>
@@ -49,6 +57,8 @@
 </template>
 
 <script>
+import {loadWeather} from '../api/weather_api';
+
 export default {
     name: "insertItem",
     data() {
@@ -61,10 +71,11 @@ export default {
             color: "green",
             checked: false,
             editChecked: [],
-            idNote: null
+            idNote: null,
+            weatherData: "0",
         };
     },
-      mounted() {
+    mounted() {
         if (localStorage.getItem('notes')) {
             try {
                 this.notes = JSON.parse(localStorage.getItem('notes'));
@@ -139,6 +150,12 @@ export default {
               this.removeDarkTheme()
             }
         },
+        async getWeather(){
+            this.weatherData = await loadWeather()
+        },
+    },
+    created(){
+        setInterval(this.getWeather, 5000)
     },
     computed:{
         noteObj(){
@@ -147,14 +164,10 @@ export default {
         noteObjDeadline(){
             return {message: this.message, deadline: this.deadline, color: this.color}
         },
-    }
+    },
 }
 </script>
 <style>
-.theme{
-  margin: 10px;
-  display: flex;
-}
 .switch {
   margin-left: 10px;
   position: relative;
