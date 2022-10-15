@@ -72,7 +72,7 @@ export default {
             checked: false,
             editChecked: [],
             idNote: null,
-            weatherData: "0",
+            weatherData: "",
         };
     },
     mounted() {
