@@ -22,10 +22,16 @@
       <div v-else class="ms-auto">
         {{ note.deadline }}
       </div>
-      <edit-button
+      <update-button v-if="editChecked"
         type="button"
         class="btn btn-dark ms-2"
-        @click="editItem(idx)"
+        @click="updateItem()"
+        >Update</update-button
+      >
+      <edit-button v-else
+        type="button"
+        class="btn btn-dark ms-2"
+        @click="editItem()"
         >Edit</edit-button
       >
       <delete-button
@@ -64,18 +70,16 @@ export default {
         this.$emit("update", this.newNote);
       }
     },
-    editItem(idx) {
-      this.editMessage = this.notes[idx].message;
-      this.editDeadline = this.notes[idx].deadline;
-      this.editChecked[idx] = true;
-      this.idNote = idx;
+    editItem() {
+      this.editMessage = this.note.message;
+      this.editDeadline = this.note.deadline;
+      this.editChecked = true;
     },
     cancelItem() {
       this.message = "";
       this.deadline = "0001-01-01T00:00";
       for (let i = 0; i < this.editChecked.length; i++) {
         this.editChecked[this.idNote] = false;
-        this.idNote = null;
       }
     },
   },

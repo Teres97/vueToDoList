@@ -1,10 +1,11 @@
 <template>
   <div v-if="notes.length > 0">
     <note-object
-      v-for="myNote in noteList"
-      :key="myNote.idx"
+      v-for="(myNote,index) in noteList"
+      :key="myNote"
       :note="myNote"
       @remove="$emit('remove', myNote)"
+      @update="$emit('update', {myNote, index})"
     />
     <pagination-component 
       :note="notes"
@@ -45,7 +46,7 @@ export default {
   },
   watch:{
     notes(notes){
-      console.log(notes.length)
+
       if(notes.length <= 10){
         this.noteList = notes
         this.currentPage = 1

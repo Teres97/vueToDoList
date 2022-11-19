@@ -1,6 +1,9 @@
 <template>
   <insert-item @add="addNote" />
-  <notes-list :notes="notes" @remove="removeItem" />
+  <notes-list 
+  :notes="notes" 
+  @remove="removeItem"
+  @update="updateItem" />
 </template>
 
 <script>
@@ -41,6 +44,10 @@ export default {
       this.notes = this.notes.filter((p) => p.id !== note.id);
       this.saveNotes();
     },
+    updateItem(note, index){
+      this.notes[index] = note;
+      this.saveNotes();
+    }
   },
 };
 </script>
