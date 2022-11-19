@@ -63,6 +63,7 @@
         Cancel
       </button>
     </div>
+    <hr>
   </div>
 </template>
 
@@ -71,6 +72,7 @@ import { loadWeather } from "@/api/weather_api";
 
 export default {
   name: "insertItem",
+  emits: ["add"],
   data() {
     return {
       deadline: new Date().toISOString().slice(0, 16),
@@ -90,7 +92,6 @@ export default {
         } else {
           this.$emit("add", this.noteObjDeadline);
         }
-        this.saveNotes();
       }
 
       this.message = "";

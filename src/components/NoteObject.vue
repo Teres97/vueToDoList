@@ -61,7 +61,6 @@ export default {
         this.newNote.message = this.editMessage;
         this.newNote.deadline = this.editDeadline;
         this.editChecked = false;
-        this.saveNotes();
         this.$emit("update", this.newNote);
       }
     },

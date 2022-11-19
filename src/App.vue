@@ -28,17 +28,18 @@ export default {
     }
   },
   methods: {
+    saveNotes() {
+      const parsed = JSON.stringify(this.notes);
+      localStorage.setItem("notes", parsed);
+    },
     addNote(note) {
       this.notes.push(note);
+      this.notes = this.notes.filter((p) => p.id);
       this.saveNotes();
     },
     removeItem(note) {
       this.notes = this.notes.filter((p) => p.id !== note.id);
       this.saveNotes();
-    },
-    saveNotes() {
-      const parsed = JSON.stringify(this.notes);
-      localStorage.setItem("notes", parsed);
     },
   },
 };
