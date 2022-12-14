@@ -1,7 +1,12 @@
 <template>
   <insert-item @add="addNote" />
+  <my-input 
+  v-model="searchQuery"
+  />
+  <sort-button style="margin-left: 10px" @click="sortedNotesMessage()">Sort Note</sort-button> 
+  <sort-button style="margin-left: 10px" @click="sortedNotesDate()">Sort Date</sort-button> 
   <notes-list 
-  :notes="notes" 
+  :notes="sortedAndSearchNotes" 
   @remove="removeItem"
   @update="updateItem" />
 </template>
@@ -9,16 +14,19 @@
 <script>
 import InsertItem from "@/components/InsertItem.vue";
 import NotesList from "@/components/NotesList.vue";
+import MyInput from './components/UI/MyInput.vue';
 
 export default {
   name: "App",
   components: {
     InsertItem,
     NotesList,
+    MyInput,
   },
   data() {
     return {
       notes: [],
+      searchQuery: '',
     };
   },
   mounted() {
@@ -47,8 +55,21 @@ export default {
     updateItem(note, index){
       this.notes[index] = note;
       this.saveNotes();
-    }
+    },
+    sortedNotesMessage(){
+      this.notes = this.notes.sort((note1, note2) => note1['message']?.localeCompare(note2['message']));
+      this.notes = this.notes.filter((p) => p.id);
+    },
+    sortedNotesDate(){
+      this.notes = this.notes.sort((note1, note2) => note1['deadline']?.localeCompare(note2['deadline']));
+      this.notes = this.notes.filter((p) => p.id);
+    },
   },
+  computed: {
+    sortedAndSearchNotes(){
+      return this.notes.filter(note => note.message.includes(this.searchQuery))
+    }
+  }
 };
 </script>
 

@@ -15,10 +15,12 @@
   <div>
     <label class="h3" for="descritpion">Descritpion</label>
     <input
+      v-focus
       class="ms-1 me-1 form-control"
       id="description"
       name="descritpion"
       v-model="message"
+      placeholder="Message"
       @keypress.enter="addItem"
     />
     <div class="mt-2">

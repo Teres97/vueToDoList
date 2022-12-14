@@ -1,12 +1,14 @@
 <template>
   <div v-if="notes.length > 0">
-    <note-object
-      v-for="(myNote,index) in noteList"
-      :key="myNote"
-      :note="myNote"
-      @remove="$emit('remove', myNote)"
-      @update="$emit('update', {myNote, index})"
-    />
+    <transition-group name="note-list">
+      <note-object
+        v-for="(myNote,index) in noteList"
+        :key="myNote"
+        :note="myNote"
+        @remove="$emit('remove', myNote)"
+        @update="$emit('update', {myNote, index})"
+      />  
+    </transition-group>
     <pagination-component 
       :note="notes"
       :Pages="pages"
@@ -60,4 +62,17 @@ export default {
 </script>
 
 <style scoped>
+.note-list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.note-list-enter-active,
+.note-list-leave-active {
+  transition: all 1s ease;
+}
+.note-list-enter-from,
+.note-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
 </style>
