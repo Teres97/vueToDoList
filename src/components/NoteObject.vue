@@ -10,7 +10,7 @@
         v-model="editMessage"
         @keypress.enter="updateItem"
       />
-      <div v-else>
+      <div class="color__labels" v-else>
         {{ note.message }}
       </div>
       <input
@@ -19,7 +19,7 @@
         type="datetime-local"
         v-model="editDeadline"
       />
-      <div v-else class="ms-auto">
+      <div v-else class="ms-auto color__deadline">
         {{ note.deadline }}
       </div>
       <update-button v-if="editChecked"

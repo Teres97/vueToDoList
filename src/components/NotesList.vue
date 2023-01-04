@@ -68,7 +68,7 @@ export default {
 }
 .note-list-enter-active,
 .note-list-leave-active {
-  transition: all 1s ease;
+  transition: all 700ms ease;
 }
 .note-list-enter-from,
 .note-list-leave-to {

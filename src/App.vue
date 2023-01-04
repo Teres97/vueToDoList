@@ -14,7 +14,7 @@
 <script>
 import InsertItem from "@/components/InsertItem.vue";
 import NotesList from "@/components/NotesList.vue";
-import MyInput from './components/UI/MyInput.vue';
+import MyInput from '@/components/UI/MyInput.vue';
 
 export default {
   name: "App",
@@ -39,31 +39,38 @@ export default {
     }
   },
   methods: {
+
     saveNotes() {
       const parsed = JSON.stringify(this.notes);
       localStorage.setItem("notes", parsed);
     },
+
     addNote(note) {
       this.notes.push(note);
       this.notes = this.notes.filter((p) => p.id);
       this.saveNotes();
     },
+
     removeItem(note) {
       this.notes = this.notes.filter((p) => p.id !== note.id);
       this.saveNotes();
     },
+
     updateItem(note, index){
       this.notes[index] = note;
       this.saveNotes();
     },
+
     sortedNotesMessage(){
       this.notes = this.notes.sort((note1, note2) => note1['message']?.localeCompare(note2['message']));
       this.notes = this.notes.filter((p) => p.id);
     },
+
     sortedNotesDate(){
       this.notes = this.notes.sort((note1, note2) => note1['deadline']?.localeCompare(note2['deadline']));
       this.notes = this.notes.filter((p) => p.id);
     },
+    
   },
   computed: {
     sortedAndSearchNotes(){
